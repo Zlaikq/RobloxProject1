@@ -1,7 +1,7 @@
 --First Script
 local mainGame = game.Workspace:WaitForChild("MainGame")
 
-local gates = mainGame
+local gates = mainGame:WaitForChild("Gates")
 
 local buttons = mainGame:WaitForChild("Buttons")
 
@@ -11,7 +11,7 @@ local function activateButton(button, touched)
     local gate = gates:FindFirstChild(button.Name)
 
     if gate then
-        gate.transparency = 0.5
+        gate.Transparency = 0.5
         gate.CanCollide = false
     end
     local duration = button:FindFirstChild("Duration")
@@ -22,10 +22,14 @@ local function activateButton(button, touched)
         print(timer)
         wait(1)
         timer = timer - 1
-    end 
+    end
+    gate.Transparency = 0
+    gate.CanCollide = true
+    touched.Value = false
+end
 
 for _, button in pairs(buttons:GetChildren()) do
-    button.Touched:Connect(function(otherpart)
+    button.Touched:Connect(function(otherPart)
         local humanoid = otherPart.Parent:FindFirstChild("Humanoid")
         local touched = button:FindFirstChild("Touched")
         if humanoid and touched and touched.Value == false then
@@ -33,6 +37,7 @@ for _, button in pairs(buttons:GetChildren()) do
         end
     end)
 end
+
         
 
 --Second Script
